@@ -1,8 +1,12 @@
 Graphic Design Summary
 --------------------------------------------
-Flyer type:                   Birthdat
+Flyer type:                   Birthday
 Favorite color:               Blue
-Flyers per month:             12
-Price per flyer ($):          3.33
-Monthly income ($):           39.96
+Flyers per month:             5
+Price per flyer ($):          10.00
+Monthly income ($):           50.00
+Report period:                Monthly
+Projected income ($):         50.00
+Sales status:                 Paid flyer work
+Monthly goal:                 Goal not met
 --------------------------------------------

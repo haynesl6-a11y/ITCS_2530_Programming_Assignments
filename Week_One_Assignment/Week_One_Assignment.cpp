@@ -11,7 +11,13 @@ int main()
     string favoriteColor;
     int flyersPerMonth = 0;
     double pricePerFlyer = 0.0;
+    int menuChoice = 0;
+    int months = 0;
     double monthlyIncome = 0.0;
+    double projectedIncome = 0.0;
+    string reportPeriod;
+    string salesStatus;
+    string goalStatus;
 
     cout << "--------------------------------------------" << endl;
     cout << "Welcome to the Graphic Design Survey!" << endl;
@@ -55,8 +61,63 @@ int main()
         return 1;
     }
 
-    // Calculate monthly income before expenses.
+    // Let the user choose one period for the income projection.
+    cout << endl;
+    cout << "Choose a report period:" << endl;
+    cout << "1. Monthly" << endl;
+    cout << "2. Quarterly" << endl;
+    cout << "3. Yearly" << endl;
+    cout << "Enter your choice: ";
+    cin >> menuChoice;
+
+    if (!cin || (!cin.eof() && cin.peek() != '\n'))
+    {
+        cout << "Enter one whole number from the menu." << endl;
+        return 1;
+    }
+
+    switch (menuChoice)
+    {
+    case 1:
+        reportPeriod = "Monthly";
+        months = 1;
+        break;
+    case 2:
+        reportPeriod = "Quarterly";
+        months = 3;
+        break;
+    case 3:
+        reportPeriod = "Yearly";
+        months = 12;
+        break;
+    default:
+        cout << "Please choose 1, 2, or 3." << endl;
+        return 1;
+    }
+
+    // Calculate income before expenses.
     monthlyIncome = flyersPerMonth * pricePerFlyer;
+    projectedIncome = monthlyIncome * months;
+
+    // Paid work requires at least one flyer and a price above zero.
+    if (flyersPerMonth > 0 && pricePerFlyer > 0.0)
+    {
+        salesStatus = "Paid flyer work";
+    }
+    else
+    {
+        salesStatus = "No paid flyer work";
+    }
+
+    // Example goal: earn at least $250 with no more than 20 flyers.
+    if (monthlyIncome >= 250.0 && flyersPerMonth <= 20)
+    {
+        goalStatus = "Goal met";
+    }
+    else
+    {
+        goalStatus = "Goal not met";
+    }
 
     // Print the summary with lined-up labels and two decimal places.
     cout << fixed << setprecision(2);
@@ -68,6 +129,10 @@ int main()
     cout << setw(30) << "Flyers per month:" << flyersPerMonth << endl;
     cout << setw(30) << "Price per flyer ($):" << pricePerFlyer << endl;
     cout << setw(30) << "Monthly income ($):" << monthlyIncome << endl;
+    cout << setw(30) << "Report period:" << reportPeriod << endl;
+    cout << setw(30) << "Projected income ($):" << projectedIncome << endl;
+    cout << setw(30) << "Sales status:" << salesStatus << endl;
+    cout << setw(30) << "Monthly goal:" << goalStatus << endl;
     cout << "--------------------------------------------" << endl;
 
     // Save the same formatted summary to report.txt.
@@ -82,6 +147,10 @@ int main()
     outFile << setw(30) << "Flyers per month:" << flyersPerMonth << endl;
     outFile << setw(30) << "Price per flyer ($):" << pricePerFlyer << endl;
     outFile << setw(30) << "Monthly income ($):" << monthlyIncome << endl;
+    outFile << setw(30) << "Report period:" << reportPeriod << endl;
+    outFile << setw(30) << "Projected income ($):" << projectedIncome << endl;
+    outFile << setw(30) << "Sales status:" << salesStatus << endl;
+    outFile << setw(30) << "Monthly goal:" << goalStatus << endl;
     outFile << "--------------------------------------------" << endl;
 
     return 0;
