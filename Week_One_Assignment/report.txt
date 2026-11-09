@@ -1,12 +1,12 @@
 Graphic Design Summary
 --------------------------------------------
-Flyer type:                   Birthday
-Favorite color:               Blue
+Flyer type:                   birthday party
+Favorite color:               tiffany blue
 Flyers per month:             5
 Price per flyer ($):          10.00
 Monthly income ($):           50.00
-Report period:                Monthly
-Projected income ($):         50.00
+Report period:                Quarterly
+Projected income ($):         150.00
 Sales status:                 Paid flyer work
 Monthly goal:                 Goal not met
 --------------------------------------------

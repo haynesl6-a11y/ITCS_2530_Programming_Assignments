@@ -12,7 +12,6 @@ int main()
     int flyersPerMonth = 0;
     double pricePerFlyer = 0.0;
     int menuChoice = 0;
-    int months = 0;
     double monthlyIncome = 0.0;
     double projectedIncome = 0.0;
     string reportPeriod;
@@ -23,7 +22,7 @@ int main()
     cout << "Welcome to the Graphic Design Survey!" << endl;
     cout << "--------------------------------------------" << endl;
 
-    // Read the full answers so they can include spaces.
+    // Read full answers so the user can enter phrases with spaces.
     cout << "What type of flyers do you create? ";
     getline(cin, flyerType);
 
@@ -42,7 +41,7 @@ int main()
         return 1;
     }
 
-    // Check the number and make sure the answer ends there.
+    // Check that the flyer count is a nonnegative whole number.
     cout << "How many flyers do you create each month? ";
     cin >> flyersPerMonth;
 
@@ -61,43 +60,7 @@ int main()
         return 1;
     }
 
-    // Let the user choose one period for the income projection.
-    cout << endl;
-    cout << "Choose a report period:" << endl;
-    cout << "1. Monthly" << endl;
-    cout << "2. Quarterly" << endl;
-    cout << "3. Yearly" << endl;
-    cout << "Enter your choice: ";
-    cin >> menuChoice;
-
-    if (!cin || (!cin.eof() && cin.peek() != '\n'))
-    {
-        cout << "Enter one whole number from the menu." << endl;
-        return 1;
-    }
-
-    switch (menuChoice)
-    {
-    case 1:
-        reportPeriod = "Monthly";
-        months = 1;
-        break;
-    case 2:
-        reportPeriod = "Quarterly";
-        months = 3;
-        break;
-    case 3:
-        reportPeriod = "Yearly";
-        months = 12;
-        break;
-    default:
-        cout << "Please choose 1, 2, or 3." << endl;
-        return 1;
-    }
-
-    // Calculate income before expenses.
     monthlyIncome = flyersPerMonth * pricePerFlyer;
-    projectedIncome = monthlyIncome * months;
 
     // Paid work requires at least one flyer and a price above zero.
     if (flyersPerMonth > 0 && pricePerFlyer > 0.0)
@@ -109,7 +72,7 @@ int main()
         salesStatus = "No paid flyer work";
     }
 
-    // Example goal: earn at least $250 with no more than 20 flyers.
+    // Check the example goal of earning $250 with 20 flyers or fewer.
     if (monthlyIncome >= 250.0 && flyersPerMonth <= 20)
     {
         goalStatus = "Goal met";
@@ -119,39 +82,103 @@ int main()
         goalStatus = "Goal not met";
     }
 
-    // Print the summary with lined-up labels and two decimal places.
-    cout << fixed << setprecision(2);
-    cout << endl;
-    cout << "Graphic Design Summary" << endl;
-    cout << "--------------------------------------------" << endl;
-    cout << left << setw(30) << "Flyer type:" << flyerType << endl;
-    cout << setw(30) << "Favorite color:" << favoriteColor << endl;
-    cout << setw(30) << "Flyers per month:" << flyersPerMonth << endl;
-    cout << setw(30) << "Price per flyer ($):" << pricePerFlyer << endl;
-    cout << setw(30) << "Monthly income ($):" << monthlyIncome << endl;
-    cout << setw(30) << "Report period:" << reportPeriod << endl;
-    cout << setw(30) << "Projected income ($):" << projectedIncome << endl;
-    cout << setw(30) << "Sales status:" << salesStatus << endl;
-    cout << setw(30) << "Monthly goal:" << goalStatus << endl;
-    cout << "--------------------------------------------" << endl;
+    // Show the menu at least once and repeat until the user quits.
+    do
+    {
+        cout << endl;
+        cout << "Choose a report period:" << endl;
+        cout << "1. Monthly" << endl;
+        cout << "2. Quarterly" << endl;
+        cout << "3. Yearly" << endl;
+        cout << "4. Quit" << endl;
+        cout << "Enter your choice: ";
+        cin >> menuChoice;
 
-    // Save the same formatted summary to report.txt.
-    ofstream outFile;
-    outFile.open("report.txt");
+        // Clear invalid input and ask for another menu choice.
+        while (!cin || menuChoice < 1 || menuChoice > 4 ||
+            (!cin.eof() && cin.peek() != '\n'))
+        {
+            if (cin.eof())
+            {
+                return 0;
+            }
 
-    outFile << fixed << setprecision(2);
-    outFile << "Graphic Design Summary" << endl;
-    outFile << "--------------------------------------------" << endl;
-    outFile << left << setw(30) << "Flyer type:" << flyerType << endl;
-    outFile << setw(30) << "Favorite color:" << favoriteColor << endl;
-    outFile << setw(30) << "Flyers per month:" << flyersPerMonth << endl;
-    outFile << setw(30) << "Price per flyer ($):" << pricePerFlyer << endl;
-    outFile << setw(30) << "Monthly income ($):" << monthlyIncome << endl;
-    outFile << setw(30) << "Report period:" << reportPeriod << endl;
-    outFile << setw(30) << "Projected income ($):" << projectedIncome << endl;
-    outFile << setw(30) << "Sales status:" << salesStatus << endl;
-    outFile << setw(30) << "Monthly goal:" << goalStatus << endl;
-    outFile << "--------------------------------------------" << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Enter a whole number from 1 to 4: ";
+            cin >> menuChoice;
+        }
+
+        switch (menuChoice)
+        {
+        case 1:
+            reportPeriod = "Monthly";
+            projectedIncome = monthlyIncome;
+            break;
+
+        case 2:
+            reportPeriod = "Quarterly";
+            projectedIncome = 0.0;
+
+            // A quarter has three months, so add monthly income three times.
+            for (int month = 1; month <= 3; month++)
+            {
+                projectedIncome = projectedIncome + monthlyIncome;
+            }
+            break;
+
+        case 3:
+            cout << "Thanks for using the survey!" << endl;
+            continue;
+            reportPeriod = "Yearly";
+            projectedIncome = monthlyIncome * 12;
+            break;
+
+        case 4:
+        }
+
+        // Display the summary with aligned labels and two decimal places.
+        cout << fixed << setprecision(2);
+        cout << endl;
+        cout << "Graphic Design Summary" << endl;
+        cout << "--------------------------------------------" << endl;
+        cout << left << setw(30) << "Flyer type:" << flyerType << endl;
+        cout << setw(30) << "Favorite color:" << favoriteColor << endl;
+        cout << setw(30) << "Flyers per month:" << flyersPerMonth << endl;
+        cout << setw(30) << "Price per flyer ($):" << pricePerFlyer << endl;
+        cout << setw(30) << "Monthly income ($):" << monthlyIncome << endl;
+        cout << setw(30) << "Report period:" << reportPeriod << endl;
+        cout << setw(30) << "Projected income ($):" << projectedIncome << endl;
+        cout << setw(30) << "Sales status:" << salesStatus << endl;
+        cout << setw(30) << "Monthly goal:" << goalStatus << endl;
+        cout << "--------------------------------------------" << endl;
+
+        // Save the latest summary to report.txt.
+        ofstream outFile;
+        outFile.open("report.txt");
+
+        if (!outFile)
+        {
+            cout << "Could not open report.txt." << endl;
+            return 1;
+        }
+
+        outFile << fixed << setprecision(2);
+        outFile << "Graphic Design Summary" << endl;
+        outFile << "--------------------------------------------" << endl;
+        outFile << left << setw(30) << "Flyer type:" << flyerType << endl;
+        outFile << setw(30) << "Favorite color:" << favoriteColor << endl;
+        outFile << setw(30) << "Flyers per month:" << flyersPerMonth << endl;
+        outFile << setw(30) << "Price per flyer ($):" << pricePerFlyer << endl;
+        outFile << setw(30) << "Monthly income ($):" << monthlyIncome << endl;
+        outFile << setw(30) << "Report period:" << reportPeriod << endl;
+        outFile << setw(30) << "Projected income ($):" << projectedIncome << endl;
+        outFile << setw(30) << "Sales status:" << salesStatus << endl;
+        outFile << setw(30) << "Monthly goal:" << goalStatus << endl;
+        outFile << "--------------------------------------------" << endl;
+
+        cout << "Saved this summary to report.txt." << endl;
+    } while (menuChoice != 4);
 
     return 0;
 }
