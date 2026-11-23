@@ -128,13 +128,20 @@ int main()
             break;
 
         case 3:
-            cout << "Thanks for using the survey!" << endl;
-            continue;
             reportPeriod = "Yearly";
             projectedIncome = monthlyIncome * 12;
             break;
 
         case 4:
+            // Quit: say goodbye and skip the report below.
+            cout << "Thanks for using the survey!" << endl;
+            break;
+        }
+
+        // Only show and save a report when the user picked a report period.
+        if (menuChoice == 4)
+        {
+            continue;
         }
 
         // Display the summary with aligned labels and two decimal places.
